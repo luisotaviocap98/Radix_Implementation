@@ -6,3 +6,4 @@ cantora
 canoa
 caneta
 cantoneira
+canela
