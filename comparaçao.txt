@@ -1,0 +1,25 @@
+#radix
+entrada=input()
+#y=['dia','dinheiro','diagrama', 'dinossauro']
+root='cantor'
+k=0
+for i in range(0,len(entrada)):
+    if i<len(root) :
+        if entrada[i]!=root[i] :#.dado[i]:
+            break
+        else :
+            print(entrada[i],root[i],end=' ')
+            print('prefixo')
+'''
+    if x in i:
+        print(x,' prefixo de ',y)
+        for i in x:
+            k+=1
+        j=y[k:]
+        t=y[:k]
+        print(j,' e ',t)
+    elif y in x:
+        print(y,' prefixo de ',x)
+    else:
+        print('incompativeis')
+'''
