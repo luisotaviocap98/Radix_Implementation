@@ -8,28 +8,53 @@ class No:
         return self.dado
 
 def addNo(root, entrada):
-    if entrada in root.dado:
-        print(entrada,'é prefixo de',root.dado)
-    elif root.dado in entrada:
-        print(root.dado, 'é prefixo de ',entrada)
+    #percorrer as duas string para conferir compatibilidades
+    for i in range(0,len(entrada)):
+        if i<len(root.dado) :
+            if entrada[i]!=root.dado[i] :
+                #se possuem diferenças entre as strings
+                break
+        else:
+            #se ultrapssou o tamanho da string dado em root
+            break
 
-    # if entrada in i:
-    #     print(entrada,' prefixo de ',y)
-    #     for i in entrada:
-    #         k+=1
-    #     j=y[k:]
-    #     t=y[:k]
-    #     print(j,' e ',t)
-    # elif y in entrada:
-    #     print(y,' prefixo de ',entrada)
-    # else:
-    #     print('incompativeis')
+    #mostrar a entrada , o root, ate que posiçao percorreu nas string, e qual atitude a ser tomada
+    print('entrada',entrada.upper(),'root',root.dado.upper(),'foi ate pos',i,'resultado:',end=' ')
+    #4 casos :
+    if i < len(root.dado) :
+        #primeiro caso: palavras diferentes
+        if i==0:
+            print('nao tem nada a ver, criar nó nulo')
+        #segundo caso: inserindo uma palavra que ja existe na arvore
+        elif entrada == root.dado:
+            print('nao precisa fazer nada, sao iguais')
+        #terceiro caso: prefixo em comum, podendo esse prefixo ser a entrada ou parte dela
+        else:
+            print('criar nó a cima com palavra nova',entrada[:i].upper())
+
+    elif i == len(root.dado):
+        #quarto caso: prefixo em comum, sendo esse prefixo o root
+        if len(entrada) > len(root.dado):
+            print('inseir como filho de root a palavra',entrada[i:].upper())
+    print()
+
 
 
 def main():
-    root = No("recanto")
-    print(root)
-    addNo(root,"canto")
+    root = No('canto')
+    #primeiro caso
+    addNo(root,'aviao')
+    #segundo caso
+    addNo(root,'canto')
+    #terceiro caso
+    addNo(root,'canoa')
+    #quarto caso
+    addNo(root,'cantor')
+
+    #mais exemplos
+    addNo(root,'cantora')
+    addNo(root,'cantoria')
+    addNo(root,'canarinho')
 
 
 if __name__ == "__main__":
