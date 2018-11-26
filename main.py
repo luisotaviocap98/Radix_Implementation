@@ -1,11 +1,10 @@
 class No:
     def __init__(self,dado):
-        self.dado = dado
+        self.dado = dado#reduzido
         self.listaNos = list()
         self.ePalavra = True
+        self.pOriginal = None
 
-    def __str__(self):
-        return self.dado
 
 def addNo(root, entrada):
     #percorrer as duas string para conferir compatibilidades
@@ -26,57 +25,95 @@ def addNo(root, entrada):
     #4 casos :
     #primeiro caso: inserindo uma palavra que ja existe na arvore
     if entrada == root.dado:
+        if(root.ePalavra == False):
+            root.ePalavra = True
+        if(root.ePalavra == True):
+            print('mudou ou ja era true',end= '     ')
         print('nao precisa fazer nada, sao iguais'.capitalize(),entrada[:match].upper())
+
         #precisa fazer só quando o atual ePalavra = False
     elif match < len(root.dado) :
         #segundo caso: palavras diferentes
         if match==0:
             print('nao tem nada a ver, criar nó nulo'.capitalize())
-            #new=No(none)
-            #new.ePalavra=False
-            #new.listaNos.append(root,entrada)
+            new=No(None)
+            new.ePalavra=False
+            word = No(entrada)
+            new.listaNos.append(root)
+            new.listaNos.append(word)
+            root = new
+            '''
+            for i in root.listaNos:
+                print(i.dado)
+                for j in i.listaNos:
+                    print(j.dado)
+            '''
         #terceiro caso: prefixo em comum, podendo esse prefixo ser a entrada ou parte dela
         else:
             print('criar nó nulo a cima com palavra nova'.capitalize(),entrada[:match].upper())
-            #new=No(entrada[:match])
-            #other=No(entrada[match:]) #detalhe para match ser igual o tamanho da entrada
-            #other2=No(root[match:])
-            #new.listaNos.append(other,other2)
+            new=No(entrada[:match])
+            if match != len(entrada):   #menor
+                other=No(entrada[match:]) #detalhe para match ser igual o tamanho da entrada
+                new.listaNos.append(other)
+            other2=No(root.dado[match:])
+            new.listaNos.append(other2)
+            root = new
+            root.ePalavra = False
+            '''
+            print(root.dado)
+            for i in root.listaNos:
+                print(i.dado)
+            '''
     elif match == len(root.dado):
         #quarto caso: prefixo em comum, sendo esse prefixo o root
         if len(entrada) > len(root.dado):
             print('inseir como filho de root a palavra'.capitalize(),entrada[match:].upper())
             #recursao, precisa verificar na lista de filhos, se possui algum filho com o novo prefixo
-            #new=No(entrada[match:])
-            #root.listaNos.append(new)
+            flag = False
+            if len(root.listaNos) > 0:
+                for i in root.listaNos:
+                    if i.dado[0] == entrada[0]:
+                        flag =True
+                        addNo(i,entrada[match:])
+            if len(root.listaNos) ==0 or flag== False:
+                new=No(entrada[match:])
+                root.listaNos.append(new)
+        print(root.listaNos[0].dado)
     print()
 
-#base para busca recursiva
-#root ='can'
-#l=['oa','ta','ario','sao']
-#entr=input()
-#for i in l:
-#    if entr[0] in i:
-#        print(i)
-
+'''
+x= No('vaca')
+y=No('gato')
+z=No('lumbriga')
+root.listaNos.append(x)
+root.listaNos.append(y)
+root.listaNos.append(z)
+root.listaNos.sort(key=lambda x: x.dado)
+for i in root.listaNos :
+    print(i.dado)
+'''
 def main():
     root = No('canto')
+    #nn=No('ra')
+    #root.listaNos.append(nn)
     #primeiro caso
-    addNo(root,'aviao')
+    addNo(root,'cano')
+
     #segundo caso
-    addNo(root,'canto')
+    #addNo(root,'canto')
     #terceiro caso
-    addNo(root,'canoa')
+    #addNo(root,'cantoria')
+    #addNo(root,'cantoria')
+    print('\n ROOT',root.dado,'filhos',root.listaNos[0].dado)
+    '''
     #quarto caso
     addNo(root,'cantor')
 
     #mais exemplos
     addNo(root,'cantora')
-    addNo(root,'cantoria')
     addNo(root,'canta')
     addNo(root,'canarinho')
     addNo(root,'corsinha')
-
-
+    '''
 if __name__ == "__main__":
     main()
