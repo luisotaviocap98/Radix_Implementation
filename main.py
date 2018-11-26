@@ -106,13 +106,22 @@ def main():
     root = No('canto')
     root = addNo(root,'cano')
     root = addNo(root,'canario')
+    root = addNo(root,'cantoria')
     root = addNo(root,'carro')
 
     print('\n ROOT',root.dado)
 
+    print('listnos[0] ', root.listaNos[0].dado)
+    print('listnos[1] ', root.listaNos[1].dado)
+    #print('listnos[1] ', root.listaNos[2].dado)
+    print('listnos FILHO ', root.listaNos[1].listaNos[0].dado)
+    print('listnos FILHO ', root.listaNos[1].listaNos[1].dado)
+    print('listnos FILHO ', root.listaNos[1].listaNos[1].listaNos[0].dado)
+    print('listnos FILHO ', root.listaNos[1].listaNos[2].dado)
 
-    print('\n ROOT-Filho[0]',root.listaNos[0].dado)
-    print('\n ROOT-Filho[1]',root.listaNos[1].dado)
+
+    #print('\n ROOT-Filho[0]',root.listaNos[0].dado)
+    #print('\n ROOT-Filho[1]',root.listaNos[1].dado)
     #print('\n ROOT-Filho[1]',root.listaNos[1].listaNos[0])
     #print('\n ROOT-Filho[2]',root.listaNos[2].dado)
     #print('\n ROOT-Filho[2]',root.listaNos[2].dado)
