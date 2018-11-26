@@ -52,27 +52,46 @@ def addNo(root, entrada):
         else:
             print('criar nó nulo a cima com palavra nova'.capitalize(),entrada[:match].upper())
             new=No(entrada[:match])
+
             if match != len(entrada):   #menor
                 other=No(entrada[match:]) #detalhe para match ser igual o tamanho da entrada
                 new.listaNos.append(other)
+
+
+
+
+                # vai ter que ter recursão
+
             other2=No(root.dado[match:])
+
+            for i in root.listaNos:
+                other2.listaNos.append(i)
+
+                print('NoGravado ',i.dado)
+
+            print()
+            print('Tamanho ',len(other2.listaNos))
+            #print('Nós ',other2.listaNos[1])
+
+
+            print("Dado de Other2: ", other2.dado)
             new.listaNos.append(other2)
             root = new
+
+
             root.ePalavra = False
-            '''
-            print(root.dado)
-            for i in root.listaNos:
-                print(i.dado)
-            '''
+
     elif match == len(root.dado):
         #quarto caso: prefixo em comum, sendo esse prefixo o root
+
         if len(entrada) > len(root.dado):
-            print('inseir como filho de root a palavra'.capitalize(),entrada[match:].upper())
+            print('inserir como filho de root a palavra'.capitalize(),entrada[match:].upper())
             #recursao, precisa verificar na lista de filhos, se possui algum filho com o novo prefixo
             flag = False
             if len(root.listaNos) > 0:
                 for i in root.listaNos:
-                    if i.dado[0] == entrada[0]:
+
+                    if i.dado[0] == entrada[match:][0]:
                         flag =True
                         addNo(i,entrada[match:])
             if len(root.listaNos) ==0 or flag== False:
@@ -80,40 +99,23 @@ def addNo(root, entrada):
                 root.listaNos.append(new)
         print(root.listaNos[0].dado)
     print()
+    return root
 
-'''
-x= No('vaca')
-y=No('gato')
-z=No('lumbriga')
-root.listaNos.append(x)
-root.listaNos.append(y)
-root.listaNos.append(z)
-root.listaNos.sort(key=lambda x: x.dado)
-for i in root.listaNos :
-    print(i.dado)
-'''
 def main():
+
     root = No('canto')
-    #nn=No('ra')
-    #root.listaNos.append(nn)
-    #primeiro caso
-    addNo(root,'cano')
+    root = addNo(root,'cano')
+    root = addNo(root,'canario')
+    root = addNo(root,'carro')
 
-    #segundo caso
-    #addNo(root,'canto')
-    #terceiro caso
-    #addNo(root,'cantoria')
-    #addNo(root,'cantoria')
-    print('\n ROOT',root.dado,'filhos',root.listaNos[0].dado)
-    '''
-    #quarto caso
-    addNo(root,'cantor')
+    print('\n ROOT',root.dado)
 
-    #mais exemplos
-    addNo(root,'cantora')
-    addNo(root,'canta')
-    addNo(root,'canarinho')
-    addNo(root,'corsinha')
-    '''
+
+    print('\n ROOT-Filho[0]',root.listaNos[0].dado)
+    print('\n ROOT-Filho[1]',root.listaNos[1].dado)
+    #print('\n ROOT-Filho[1]',root.listaNos[1].listaNos[0])
+    #print('\n ROOT-Filho[2]',root.listaNos[2].dado)
+    #print('\n ROOT-Filho[2]',root.listaNos[2].dado)
+
 if __name__ == "__main__":
     main()
