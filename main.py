@@ -1,3 +1,5 @@
+import sys
+
 class No:
     def __init__(self,dado):
         self.dado = dado#reduzido
@@ -52,7 +54,7 @@ def addNo(root, entrada):
         else:
             print('criar nó nulo a cima com palavra nova'.capitalize(),entrada[:match].upper())
             new=No(entrada[:match])
-
+            print('\nMATCH ',match,'LEN',len(entrada),'NEW',new.dado)
             if match != len(entrada):   #menor
                 other=No(entrada[match:]) #detalhe para match ser igual o tamanho da entrada
                 new.listaNos.append(other)
@@ -61,26 +63,26 @@ def addNo(root, entrada):
 
 
                 # vai ter que ter recursão
-
+                print('11111',other.dado)
             other2=No(root.dado[match:])
 
             for i in root.listaNos:
                 other2.listaNos.append(i)
 
-                print('NoGravado ',i.dado)
-
-            print()
-            print('Tamanho ',len(other2.listaNos))
+            #    print('NoGravado ',i.dado)
+            print('22222',other2.dado)
+            #print()
+            #print('Tamanho ',len(other2.listaNos))
             #print('Nós ',other2.listaNos[1])
 
 
-            print("Dado de Other2: ", other2.dado)
+            #print("Dado de Other2: ", other2.dado)
             new.listaNos.append(other2)
             root = new
 
-
+            print('\nesse eh o new',new.dado,'esse eh o root',root.dado)
             root.ePalavra = False
-
+            return root
     elif match == len(root.dado):
         #quarto caso: prefixo em comum, sendo esse prefixo o root
 
@@ -89,35 +91,56 @@ def addNo(root, entrada):
             #recursao, precisa verificar na lista de filhos, se possui algum filho com o novo prefixo
             flag = False
             if len(root.listaNos) > 0:
-                for i in root.listaNos:
-
+                for j,i in enumerate(root.listaNos):
                     if i.dado[0] == entrada[match:][0]:
                         flag =True
-                        addNo(i,entrada[match:])
-            if len(root.listaNos) ==0 or flag== False:
+                        print('\nRECURSAO',entrada,'  ',entrada[match:])
+                        x=addNo(i,entrada[match:])
+                        print('\nTESTE',x.dado,x.listaNos[0].dado,x.listaNos[1].dado,j,root.listaNos[j].dado)
+                        root.listaNos[j]=x
+
+            if len(root.listaNos) == 0 or flag == False:
                 new=No(entrada[match:])
                 root.listaNos.append(new)
-        print(root.listaNos[0].dado)
+        #print(root.listaNos[0].dado)
+    print('\nolha o root',root.dado)
     print()
     return root
 
+def imprimindo(root):
+    print(root.dado)
+    if(len(root.listaNos)>0):
+        for i in root.listaNos:
+            imprimindo(i)
 def main():
 
-    root = No('canto')
-    root = addNo(root,'cano')
-    root = addNo(root,'canario')
-    root = addNo(root,'cantoria')
-    root = addNo(root,'carro')
+    #root = No('canto')
+    #root = addNo(root,'cano')
+    #root = addNo(root,'canario')
+    #root = addNo(root,'cantoria')
+    #root = addNo(root,'carro')
 
-    print('\n ROOT',root.dado)
 
-    print('listnos[0] ', root.listaNos[0].dado)
-    print('listnos[1] ', root.listaNos[1].dado)
+    arq = sys.argv[1]
+    f = open(arq, 'r')
+    line = f.readline() #Linha 1 - root
+    root = No(line)
+    for line in f:
+        trans = line.replace("\n", '')
+        print('trans ', trans)
+        root = addNo(root,trans)
+
+    imprimindo(root)
+    #print(root.dado,root.listaNos[0].dado,root.listaNos[1].dado)
+    #print('qnt tem',len(root.listaNos))
+    #print('\n ROOT',root.dado)
+    #print('listnos[0] ', root.listaNos[0].dado)
+    #print('listnos[1] ', root.listaNos[1].dado)
     #print('listnos[1] ', root.listaNos[2].dado)
-    print('listnos FILHO ', root.listaNos[1].listaNos[0].dado)
-    print('listnos FILHO ', root.listaNos[1].listaNos[1].dado)
-    print('listnos FILHO ', root.listaNos[1].listaNos[1].listaNos[0].dado)
-    print('listnos FILHO ', root.listaNos[1].listaNos[2].dado)
+    #print('listnos FILHO ', root.listaNos[1].listaNos[0].dado)
+    #print('listnos FILHO e root',root.dado, root.listaNos[1].listaNos[0].dado)#.listaNos[1].dado)
+    #print('listnos FILHO ', root.listaNos[1].listaNos[1].listaNos[0].dado)
+    #print('listnos FILHO ', root.listaNos[1].listaNos[2].dado)
 
 
     #print('\n ROOT-Filho[0]',root.listaNos[0].dado)
