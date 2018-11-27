@@ -8,7 +8,7 @@ class No:
         self.pOriginal = dado
 
 
-def addNo(root, entrada):
+def addNo(root, entrada,recurso):
     #percorrer as duas string para conferir compatibilidades
     match=0
     for i in range(0,len(entrada)):
@@ -29,10 +29,11 @@ def addNo(root, entrada):
     if entrada == root.dado:
         if(root.ePalavra == False):
             root.ePalavra = True
-            #root.pOriginal = entrada
+            root.pOriginal = entrada
         #if(root.ePalavra == True):
         #    print('mudou ou ja era true',end= '     ')
         print('nao precisa fazer nada, sao iguais'.capitalize(),entrada[:match].upper())
+        print("recurso ",recurso)
 
         #precisa fazer só quando o atual ePalavra = False
     elif match < len(root.dado) :
@@ -42,8 +43,8 @@ def addNo(root, entrada):
             new=No(None)
             new.ePalavra=False
             word = No(entrada)
-            #word.pOriginal = entrada
-            #root.pOriginal = root.dado
+            word.pOriginal = entrada
+            root.pOriginal = root.dado
             new.listaNos.append(root)
             new.listaNos.append(word)
             root = new
@@ -51,17 +52,20 @@ def addNo(root, entrada):
         #terceiro caso: prefixo em comum, podendo esse prefixo ser a entrada ou parte dela
         else:
             print('criar nó nulo a cima com palavra nova'.capitalize(),entrada[:match].upper())
-            new=No(entrada[:match])
-            #print('\nMATCH ',match,'LEN',len(entrada),'NEW',new.dado)
-            #print('\ROOT ',root.dado)
+            new=No(entrada[:match])  #Nó Acima Cortado
+
+
             if match != len(entrada):   #menor
                 other=No(entrada[match:]) #detalhe para match ser igual o tamanho da entrada
-                #other.pOriginal = entrada
+                other.pOriginal = recurso
                 new.listaNos.append(other)
 
             other2=No(root.dado[match:])
-            #other2.pOriginal = root.dado
-            other2.ePalavra = False
+            other2.pOriginal = root.pOriginal.replace("\n", '')
+            other2.dado = other2.dado.replace("\n", '')
+
+            other2.ePalavra = root.ePalavra
+
 
             for i in root.listaNos:
                 i.dado = i.dado.replace("\n", '')
@@ -86,19 +90,29 @@ def addNo(root, entrada):
                     if i.dado[0] == entrada[match:][0]:
                         flag =True
                         #print('\nRECURSAO',entrada,'  ',entrada[match:])
-                        x=addNo(i,entrada[match:])
-                        #x.pOriginal =entrada
+                        x=addNo(i,entrada[match:], entrada)
+                        x.pOriginal = entrada
                         root.listaNos[j]= x
                         #print('\nTESTE',x.dado,x.listaNos[0].dado,x.listaNos[1].dado,j,root.listaNos[j].dado)
 
             if len(root.listaNos) == 0 or flag == False:
                 new=No(entrada[match:])
-                #new.pOriginal=entrada
+                new.pOriginal=entrada
                 root.listaNos.append(new)
-        #print(root.listaNos[0].dado)
-    #print('\nolha o root',root.dado)
+
     print()
     return root
+
+def imprimindoAll(root):
+    if(len(root.listaNos)!=0):
+        for i in root.listaNos:
+            if i.ePalavra == True:
+                print('[', end='')
+                print(i.pOriginal, end='')
+                print(']',end='')
+        for i in root.listaNos:
+            imprimindoAll(i)
+
 
 def imprimindo(root):
     if(len(root.listaNos)!=0):
@@ -110,22 +124,6 @@ def imprimindo(root):
         for i in root.listaNos:
             imprimindo(i)
 
-
-def buscando(root, prefixo):
-    #print(root.pOriginal[:len(prefixo)])
-    if root.dado[:len(prefixo)] == prefixo:
-        if root.ePalavra == True:
-            print(root.dado)
-        if len(root.listaNos)>0:
-            for i in root.listaNos:
-                buscando(i,prefixo)
-            '''
-            print(i.pOriginal,i.ePalavra, i.pOriginal)
-            for j in i.listaNos:
-                    #if j.ePalavra == True:
-                print(j.dado, j.ePalavra, j.pOriginal)
-            '''
-
 def main():
     arq = sys.argv[1]
     f = open(arq, 'r')
@@ -134,14 +132,18 @@ def main():
     for line in f:
         trans = line.replace("\n", '')
         print('trans ', trans)
-        root = addNo(root,trans)
+        root = addNo(root,trans, trans)
 
-    print('\n--------PRINT---------------')
+    print('\n--------PRINT Todos---------------')
+    imprimindoAll(root)
+    print()
+
+    print('\n--------PRINT com Nos---------------')
     imprimindo(root)
     print()
 
     print('\n-------BUSCANDO------')
-    buscando(root, "c")
+    #buscan(root, "c")
 
 if __name__ == "__main__":
     main()
