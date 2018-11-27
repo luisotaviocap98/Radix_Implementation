@@ -7,7 +7,6 @@ class No:
         self.ePalavra = True
         self.pOriginal = dado
 
-
 def addNo(root, entrada,recurso):
     #percorrer as duas string para conferir compatibilidades
     match=0
@@ -135,10 +134,10 @@ def buscando(root, prefixo):
 def main():
     arq = sys.argv[1]
     f = open(arq, 'r')
-    line = f.readline() #Linha 1 - root
+    line = f.readline().lower() #Linha 1 - root
     root = No(line)
     for line in f:
-        trans = line.replace("\n", '')
+        trans = line.replace("\n", '').lower()
         print('trans ', trans)
         root = addNo(root,trans, trans)
 
@@ -151,7 +150,7 @@ def main():
     print()
 
     print('\n-------BUSCANDO------')
-    buscando(root, "can")
+    buscando(root, "l")
 
 if __name__ == "__main__":
     main()
