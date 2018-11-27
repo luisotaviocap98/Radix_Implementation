@@ -30,16 +30,13 @@ def addNo(root, entrada,recurso):
         if(root.ePalavra == False):
             root.ePalavra = True
             root.pOriginal = entrada
-        #if(root.ePalavra == True):
-        #    print('mudou ou ja era true',end= '     ')
         #print('nao precisa fazer nada, sao iguais'.capitalize(),entrada[:match].upper())
 
-        #precisa fazer só quando o atual ePalavra = False
     elif match < len(root.dado) :
         #segundo caso: palavras diferentes
         if match==0:
             #print('nao tem nada a ver, criar nó nulo'.capitalize())
-            new=No(None)
+            new=No('')
             new.ePalavra=False
             word = No(entrada)
             word.pOriginal = entrada
@@ -119,7 +116,7 @@ def imprimindo(root):
         print('\n*',root.dado,root.ePalavra)
         for i in root.listaNos:
             print('[', end='')
-            print(i.pOriginal,'*',i.ePalavra,'*' ,end='')
+            print(i.dado,'*',i.ePalavra,'*' ,end='')
             print(']',end='')
         for i in root.listaNos:
             imprimindo(i)
@@ -159,7 +156,7 @@ def main():
     print()
 
     print('\n-------BUSCANDO------')
-    #buscan(root, "c")
+    buscando(root, "cane")
 
 if __name__ == "__main__":
     main()
