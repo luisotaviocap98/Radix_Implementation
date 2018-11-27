@@ -6,3 +6,5 @@ cantor
 camaro
 carro
 carra
+can
+ca
