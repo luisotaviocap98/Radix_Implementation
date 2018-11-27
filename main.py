@@ -32,36 +32,37 @@ def addNo(root, entrada):
             #root.pOriginal = entrada
         #if(root.ePalavra == True):
         #    print('mudou ou ja era true',end= '     ')
-        print('nao precisa fazer nada, sao iguais'.capitalize(),entrada[:match].upper())
+        #print('nao precisa fazer nada, sao iguais'.capitalize(),entrada[:match].upper())
 
         #precisa fazer só quando o atual ePalavra = False
     elif match < len(root.dado) :
         #segundo caso: palavras diferentes
         if match==0:
-            print('nao tem nada a ver, criar nó nulo'.capitalize())
+            #print('nao tem nada a ver, criar nó nulo'.capitalize())
             new=No(None)
             new.ePalavra=False
             word = No(entrada)
-            #word.pOriginal = entrada
-            #root.pOriginal = root.dado
+            word.pOriginal = entrada[match:]
+            root.pOriginal = root.dado[match:]
             new.listaNos.append(root)
             new.listaNos.append(word)
             root = new
 
         #terceiro caso: prefixo em comum, podendo esse prefixo ser a entrada ou parte dela
         else:
-            print('criar nó nulo a cima com palavra nova'.capitalize(),entrada[:match].upper())
+            #print('criar nó nulo a cima com palavra nova'.capitalize(),entrada[:match].upper())
             new=No(entrada[:match])
             #print('\nMATCH ',match,'LEN',len(entrada),'NEW',new.dado)
             #print('\ROOT ',root.dado)
+            print('o1',entrada[match:],'o2',root.pOriginal[:len(root.dado[:match])],'com',root.dado[:match],'ate',match)
             if match != len(entrada):   #menor
                 other=No(entrada[match:]) #detalhe para match ser igual o tamanho da entrada
-                #other.pOriginal = entrada
+                other.pOriginal = entrada
                 new.listaNos.append(other)
 
             other2=No(root.dado[match:])
-            #other2.pOriginal = root.dado
-            other2.ePalavra = False
+            other2.pOriginal = root.pOriginal
+            #other2.ePalavra = False
 
             for i in root.listaNos:
                 i.dado = i.dado.replace("\n", '')
@@ -70,6 +71,7 @@ def addNo(root, entrada):
 
             new.listaNos.append(other2)
             new.ePalavra = False
+            new.pOriginal = entrada[:match]
             root = new
 
             #print('\nesse eh o new',new.dado,'esse eh o root',root.dado)
@@ -78,7 +80,7 @@ def addNo(root, entrada):
         #quarto caso: prefixo em comum, sendo esse prefixo o root
 
         if len(entrada) > len(root.dado):
-            print('inserir como filho de root a palavra'.capitalize(),entrada[match:].upper())
+            #print('inserir como filho de root a palavra'.capitalize(),entrada[match:].upper())
             #recursao, precisa verificar na lista de filhos, se possui algum filho com o novo prefixo
             flag = False
             if len(root.listaNos) > 0:
@@ -87,13 +89,13 @@ def addNo(root, entrada):
                         flag =True
                         #print('\nRECURSAO',entrada,'  ',entrada[match:])
                         x=addNo(i,entrada[match:])
-                        #x.pOriginal =entrada
+                        x.pOriginal =entrada[:match]
                         root.listaNos[j]= x
                         #print('\nTESTE',x.dado,x.listaNos[0].dado,x.listaNos[1].dado,j,root.listaNos[j].dado)
 
             if len(root.listaNos) == 0 or flag == False:
                 new=No(entrada[match:])
-                #new.pOriginal=entrada
+                new.pOriginal=entrada
                 root.listaNos.append(new)
         #print(root.listaNos[0].dado)
     #print('\nolha o root',root.dado)
@@ -105,7 +107,7 @@ def imprimindo(root):
         print('\n*',root.dado,root.ePalavra)
         for i in root.listaNos:
             print('[', end='')
-            print(i.dado, end='')
+            print(i.pOriginal,'*',i.ePalavra,'*' ,end='')
             print(']',end='')
         for i in root.listaNos:
             imprimindo(i)
@@ -113,9 +115,9 @@ def imprimindo(root):
 
 def buscando(root, prefixo):
     #print(root.pOriginal[:len(prefixo)])
-    if root.dado[:len(prefixo)] == prefixo:
+    if root.pOriginal[:len(prefixo)] == prefixo:
         if root.ePalavra == True:
-            print(root.dado)
+            print(root.pOriginal)
         if len(root.listaNos)>0:
             for i in root.listaNos:
                 buscando(i,prefixo)
@@ -133,11 +135,11 @@ def main():
     root = No(line)
     for line in f:
         trans = line.replace("\n", '')
-        print('trans ', trans)
+        #print('trans ', trans)
         root = addNo(root,trans)
 
     print('\n--------PRINT---------------')
-    imprimindo(root)
+    #imprimindo(root)
     print()
 
     print('\n-------BUSCANDO------')
