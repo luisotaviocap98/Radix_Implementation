@@ -135,8 +135,9 @@ def main():
             x= x+' '+i
         else:
             y=i
-    if x[0] == ' ':
-        x=x.replace(' ','',1)
+    #if x[0] == ' ':
+        #x=x.replace(' ','',1)
+    x=x.strip()
     root = No(x,y)
     x=''
     for line in f:
@@ -146,9 +147,10 @@ def main():
                 x= x+' '+i
             else:
                 y=i
-        if x[0] == ' ':
-            x=x.replace(' ','',1)
-        print(x,i)
+        #if x[0] == ' ':
+        #    x=x.replace(' ','',1)
+        #print(x,i)
+        x=x.strip()
         root = addNo(root,x,x,y)
         x=''
 
@@ -161,7 +163,7 @@ def main():
     print()
 
     print('\n-------BUSCANDO------')
-    buscando(root, "d")
+    buscando(root, "j")
 
 if __name__ == "__main__":
     main()

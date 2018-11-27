@@ -118,8 +118,8 @@ def imprimindo(root):
 
 
 def buscando(root, prefixo):
-    if root.pOriginal[:len(prefixo)] in prefixo:
-        if root.ePalavra == True and len(root.pOriginal) >= len(prefixo):
+    if root.placa[:len(prefixo)] == prefixo:
+        if root.ePalavra == True:
             print(root.pOriginal, root.placa)
     if len(root.listaNos)>0:
         for i in root.listaNos:
@@ -135,8 +135,9 @@ def main():
             x= x+' '+i
         elif i.isalnum():
             y=i
-    if x[0] == ' ':
-        x=x.replace(' ','',1)
+    #if x[0] == ' ':
+    #    x=x.replace(' ','',1)
+    x=x.strip()
     root = No(x,y)
     x=''
     for line in f:
@@ -146,8 +147,9 @@ def main():
                 x= x+' '+i
             elif i.isalnum():
                 y=i
-        if x[0] == ' ':
-            x=x.replace(' ','',1)
+        #if x[0] == ' ':
+            #x=x.replace(' ','',1)
+        x=x.strip()
         print(x,i)
         root = addNo(root,x,x,y)
         x=''
@@ -161,7 +163,7 @@ def main():
     print()
 
     print('\n-------BUSCANDO------')
-    buscando(root, "l")
+    buscando(root, "1")
 
 if __name__ == "__main__":
     main()
