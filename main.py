@@ -150,7 +150,7 @@ def main():
     print()
 
     print('\n-------BUSCANDO------')
-    buscando(root, "l")
+    buscando(root, "can")
 
 if __name__ == "__main__":
     main()

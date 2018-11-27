@@ -36,7 +36,7 @@ def addNo(root, entrada,recurso, tel):
         #segundo caso: palavras diferentes
         if match==0:
             #print('nao tem nada a ver, criar nó nulo'.capitalize())
-            new=No('',tel)
+            new=No('','')
             new.ePalavra=False
             word = No(entrada, tel)
             word.pOriginal = entrada
@@ -47,32 +47,28 @@ def addNo(root, entrada,recurso, tel):
 
         #terceiro caso: prefixo em comum, podendo esse prefixo ser a entrada ou parte dela
         else:
-            print('criar nó nulo a cima com palavra nova'.capitalize(),entrada[:match].upper())
-            new=No(entrada[:match], tel)  #Nó Acima Cortado
+            #print('criar nó nulo a cima com palavra nova'.capitalize(),entrada[:match].upper())
+            new=No(entrada[:match], '')  #Nó Acima Cortado
 
-            if match != len(entrada):   #menor
-                other=No(entrada[match:], tel) #detalhe para match ser igual o tamanho da entrada
+            if match != len(entrada):
+                other=No(entrada[match:], tel) 
                 other.pOriginal = recurso
                 new.listaNos.append(other)
 
             other2=No(root.dado[match:], root.telefone)
             other2.pOriginal = root.pOriginal.replace("\n", '')
             other2.dado = other2.dado.replace("\n", '')
-
             other2.ePalavra = root.ePalavra
-
 
             for i in root.listaNos:
                 i.dado = i.dado.replace("\n", '')
                 other2.listaNos.append(i)
-
 
             new.listaNos.append(other2)
             new.ePalavra = False
             new.pOriginal = entrada[:match]
             root = new
 
-            #print('\nesse eh o new',new.dado,'esse eh o root',root.dado)
             return root
     elif match == len(root.dado):
         #quarto caso: prefixo em comum, sendo esse prefixo o root
@@ -125,23 +121,29 @@ def buscando(root, prefixo):
     if root.pOriginal[:len(prefixo)] in prefixo:
         if root.ePalavra == True and len(root.pOriginal) >= len(prefixo):
             print(root.pOriginal, root.telefone)
-        if len(root.listaNos)>0:
-            for i in root.listaNos:
-                buscando(i,prefixo)
+    if len(root.listaNos)>0:
+        for i in root.listaNos:
+            buscando(i,prefixo)
 
 def main():
     arq = sys.argv[1]
     f = open(arq, 'r')
     line = f.readline().lower().split() #Linha 1 - root
-
     root = No(line[0],line[1])
 
-
+    x=str()
     for line in f:
         trans = line.replace("\n", '').lower().split()
-        #print(trans)
-        root = addNo(root,trans[0], trans[0],trans[1])
-
+        for i in trans:
+            if i.isalpha():
+                x= x+' '+i
+            else:
+                y=i
+        if x[0] == ' ':
+            x=x.replace(' ','',1)
+        print(x,i)
+        root = addNo(root,x,x,y)
+        x=''
 
     print('\n--------PRINT Todos---------------')
     imprimindoAll(root)
@@ -152,7 +154,7 @@ def main():
     print()
 
     print('\n-------BUSCANDO------')
-    buscando(root, "dan")
+    buscando(root, "j")
 
 if __name__ == "__main__":
     main()
