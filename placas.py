@@ -1,14 +1,14 @@
 import sys
 
 class No:
-    def __init__(self,dado, telefone):
+    def __init__(self,dado, placa):
         self.dado = dado#reduzido
         self.listaNos = list()
         self.ePalavra = True
         self.pOriginal = dado
-        self.telefone = telefone
+        self.placa = placa
 
-def addNo(root, entrada,recurso, tel):
+def addNo(root, entrada,recurso, placa):
     #percorrer as duas string para conferir compatibilidades
     match=0
     for i in range(0,len(entrada)):
@@ -38,7 +38,7 @@ def addNo(root, entrada,recurso, tel):
             #print('nao tem nada a ver, criar nó nulo'.capitalize())
             new=No('','')
             new.ePalavra=False
-            word = No(entrada, tel)
+            word = No(entrada, placa)
             word.pOriginal = entrada
             root.pOriginal = root.dado
             new.listaNos.append(root)
@@ -51,11 +51,11 @@ def addNo(root, entrada,recurso, tel):
             new=No(entrada[:match], '')  #Nó Acima Cortado
 
             if match != len(entrada):
-                other=No(entrada[match:], tel)
+                other=No(entrada[match:], placa)
                 other.pOriginal = recurso
                 new.listaNos.append(other)
 
-            other2=No(root.dado[match:], root.telefone)
+            other2=No(root.dado[match:], root.placa)
             other2.pOriginal = root.pOriginal.replace("\n", '')
             other2.dado = other2.dado.replace("\n", '')
             other2.ePalavra = root.ePalavra
@@ -82,13 +82,13 @@ def addNo(root, entrada,recurso, tel):
                     if i.dado[0] == entrada[match:][0]:
                         flag =True
                         #print('\nRECURSAO',entrada,'  ',entrada[match:])
-                        x=addNo(i,entrada[match:], entrada, tel)
+                        x=addNo(i,entrada[match:], entrada, placa)
                         x.pOriginal = entrada
                         root.listaNos[j]= x
                         #print('\nTESTE',x.dado,x.listaNos[0].dado,x.listaNos[1].dado,j,root.listaNos[j].dado)
 
             if len(root.listaNos) == 0 or flag == False:
-                new=No(entrada[match:], tel)
+                new=No(entrada[match:], placa)
                 new.pOriginal=entrada
                 root.listaNos.append(new)
 
@@ -100,7 +100,7 @@ def imprimindoAll(root):
         for i in root.listaNos:
             if i.ePalavra == True:
                 print('[', end='')
-                print(i.pOriginal, i.telefone, end='')
+                print(i.pOriginal, i.placa, end='')
                 print(']',end='')
         for i in root.listaNos:
             imprimindoAll(i)
@@ -120,7 +120,7 @@ def imprimindo(root):
 def buscando(root, prefixo):
     if root.pOriginal[:len(prefixo)] in prefixo:
         if root.ePalavra == True and len(root.pOriginal) >= len(prefixo):
-            print(root.pOriginal, root.telefone)
+            print(root.pOriginal, root.placa)
     if len(root.listaNos)>0:
         for i in root.listaNos:
             buscando(i,prefixo)
@@ -133,7 +133,7 @@ def main():
     for i in line:
         if i.isalpha():
             x= x+' '+i
-        else:
+        elif i.isalnum():
             y=i
     if x[0] == ' ':
         x=x.replace(' ','',1)
@@ -144,7 +144,7 @@ def main():
         for i in trans:
             if i.isalpha():
                 x= x+' '+i
-            else:
+            elif i.isalnum():
                 y=i
         if x[0] == ' ':
             x=x.replace(' ','',1)
@@ -161,7 +161,7 @@ def main():
     print()
 
     print('\n-------BUSCANDO------')
-    buscando(root, "d")
+    buscando(root, "l")
 
 if __name__ == "__main__":
     main()
