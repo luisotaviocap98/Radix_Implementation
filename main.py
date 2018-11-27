@@ -123,19 +123,14 @@ def imprimindo(root):
 
 
 def buscando(root, prefixo):
-    #print(root.pOriginal[:len(prefixo)])
-    if root.pOriginal[:len(prefixo)] == prefixo:
-        if root.ePalavra == True:
+
+    #print(prefixo[ len(root.pOriginal[:len(prefixo)] ):])
+    if root.pOriginal[:len(prefixo)] in prefixo:
+        if root.ePalavra == True and len(root.pOriginal) >= len(prefixo):
             print(root.pOriginal)
         if len(root.listaNos)>0:
             for i in root.listaNos:
                 buscando(i,prefixo)
-            '''
-            print(i.pOriginal,i.ePalavra, i.pOriginal)
-            for j in i.listaNos:
-                    #if j.ePalavra == True:
-                print(j.dado, j.ePalavra, j.pOriginal)
-            '''
 
 def main():
     arq = sys.argv[1]
@@ -156,7 +151,7 @@ def main():
     print()
 
     print('\n-------BUSCANDO------')
-    buscando(root, "cane")
+    buscando(root, "can")
 
 if __name__ == "__main__":
     main()
