@@ -162,8 +162,13 @@ def main():
     imprimindo(root)
     print()
 
-    print('\n-------BUSCANDO------')
-    buscando(root, "j")
+    print('\n')
+    while 1:
+        tmp = input('-Digite o Nome para Buscar? (Para Sair Digite 0)\n')
+        if tmp == '0':
+            break
+        print('\n-------BUSCANDO------')
+        buscando(root, tmp)
 
 if __name__ == "__main__":
     main()

@@ -147,10 +147,13 @@ def main():
 
     print('\n--------PRINT com Nos---------------')
     imprimindo(root)
-    print()
-
-    print('\n-------BUSCANDO------')
-    buscando(root, "can")
+    print('\n')
+    while 1:
+        tmp = input('-Digite um Prefixo para Buscar? (Para Sair Digite 0)\n')
+        if tmp == '0':
+            break
+        print('\n-------BUSCANDO------')
+        buscando(root, tmp)
 
 if __name__ == "__main__":
     main()

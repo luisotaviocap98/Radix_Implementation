@@ -162,8 +162,13 @@ def main():
     imprimindo(root)
     print()
 
-    print('\n-------BUSCANDO------')
-    buscando(root, "1")
+    print('\n')
+    while 1:
+        tmp = input('-Digite um Prefixo de Placa para Buscar? (Para Sair Digite -1)\n')
+        if tmp == '-1':
+            break
+        print('\n-------BUSCANDO------')
+        buscando(root, tmp)
 
 if __name__ == "__main__":
     main()
